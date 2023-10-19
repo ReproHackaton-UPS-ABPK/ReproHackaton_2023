@@ -1,8 +1,16 @@
-fasterq-dump SRP227811
-#gzip *.fastq
+#--------- TELECHARGEMENT DES SÉQUENCES RNA EN FORMAT FASTQ --------------
+#fasterq-dump SRR10379721
+#fasterq-dump SRR10379722
+#fasterq-dump SRR10379723
+#fasterq-dump SRR10379724
+#fasterq-dump SRR10379725
+#fasterq-dump SRR10379726
+
+#---------- TELECHARGEMENT DES SÉQUENCES DE REFERENCE ---------------------
+#gzip *.fastq 
 #wget -q -O ~/ReproHackaton_2023/ressources/genomes/reference.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=CP000253.1&rettype=fasta"
 #wget -O ~/ReproHackaton_2023/ressources/genomes/reference.gff "https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?db=nuccore&report=gff3&id=CP000253.1"
 #trim_galore -q 20 --phred33 --length 25 <FASTQ FILE>
 
 #bowtie2 index
-bowtie2-build reference.fasta aureusIndex
+#bowtie2-build reference.fasta aureusIndex

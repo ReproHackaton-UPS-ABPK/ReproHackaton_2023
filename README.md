@@ -8,3 +8,5 @@ We'll be working of the reproduction of the paper: [Intracellular Staphylococcus
 ### Just a group of students working in their project ..
 Links of the slides :
 Week 1 :https://docs.google.com/presentation/d/1fjEN-x6hD_FPFjQ8IcJPGlG5etxT3W5sTkdrif7sDqI/edit?usp=sharing
+
+Link to the list of RNAs relateds to the experiment : https://www.ncbi.nlm.nih.gov/sra?term=SRP227811

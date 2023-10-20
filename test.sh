@@ -20,4 +20,3 @@
 
 #---------- MAPPING ---------------------
 #bowtie2 -x aureusIndex -U <fichier.fastq.gz> -S test.sam
-

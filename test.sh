@@ -20,3 +20,6 @@
 
 #---------- MAPPING ---------------------
 #bowtie2 -x aureusIndex -U <fichier.fastq.gz> -S test.sam
+
+#---------- COUNTING (SUBREAD) ---------------------
+#featureCounts -p -O -T n -a <example_genome_annotation.gtf> -o fichier_output.txt <sorted_example_alignment.bam>

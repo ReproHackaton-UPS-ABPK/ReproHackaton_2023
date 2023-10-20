@@ -6,11 +6,17 @@
 #fasterq-dump SRR10379725
 #fasterq-dump SRR10379726
 
-#---------- TELECHARGEMENT DES SÉQUENCES DE REFERENCE ---------------------
+#---------- TELECHARGEMENT DE LA SÉQUENCE DE REFERENCE + ANNOTATION ---------------------
 #gzip *.fastq 
 #wget -q -O ~/ReproHackaton_2023/ressources/genomes/reference.fasta "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nuccore&id=CP000253.1&rettype=fasta"
 #wget -O ~/ReproHackaton_2023/ressources/genomes/reference.gff "https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?db=nuccore&report=gff3&id=CP000253.1"
-#trim_galore -q 20 --phred33 --length 25 <FASTQ FILE>
 
-#bowtie2 index
+#---------- CRÉATION DE L'INDEX ---------------------
 #bowtie2-build reference.fasta aureusIndex
+
+#---------- TRIMMING : suppression des gènes indésirables ---------------------
+#trim_galore -q 20 --phred33 --length 25 <fichier.fastq.gz>
+
+#---------- MAPPING ---------------------
+#bowtie2 -x aureusIndex -U <fichier.fastq.gz> -S test.sam
+

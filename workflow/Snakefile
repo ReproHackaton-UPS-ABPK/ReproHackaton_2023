@@ -1,16 +1,30 @@
-#rule Telechargement_sequences:
+#rule telechargement_sequences:
 #    container: 'docker://pegi3s/sratoolkit'
 #    shell:
 #        'fasterq-dump SRR10379721'
 
-#rule Trimming:
+#rule compresion_sequences: PROBLÉME WARNING
+#    input: "SRR10379721.fastq"
+#    container: 'docker://pegi3s/sratoolkit'
+#    shell:
+#        'gzip {input}'
 
-rule bowtie_index:
-    input: "ressources/genomes/reference.fasta"
-    output: "ressources/test/aureusindex"
-    container: 'docker://nanozoo/bowtie2'
-    shell:
-        'bowtie2-build {input} {output}'
+#rule bowtie_index:
+#    input: "ressources/genomes/reference.fasta"
+#    output: "ressources/index/aureusindex"
+#    container: 'docker://nanozoo/bowtie2'
+#    shell:
+#        'bowtie2-build {input} {output}'
 
-rule mapping:
-    input
+#rule trimming:
+#    input:
+#    container: DOCKERFILE
+#    shell:
+#        'trim_galore -q 20 --phred33 --length 25 <fichier.fastq.gz>'
+
+#rule mapping:
+    #input: "SRR10379721_trimmed.fq.gz"
+    #container: 'docker://nanozoo/bowtie2'
+    #output: "SRR10379721_mapped.sam"
+    #shell:
+        #'bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}'

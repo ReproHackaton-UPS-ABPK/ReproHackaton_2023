@@ -18,7 +18,7 @@
 #trim_galore -q 20 --phred33 --length 25 SRR10379726.fastq.gz
 
 #---------- MAPPING ---------------------
-#bowtie2 -x aureusIndex -U SRR10379726_trimmed.fq.gz -S SRR10379726_test.sam
+#bowtie2 -x aureusIndex -U SRR10379726_trimmed.fq.gz -S SRR10379726_mapped.sam
 
 #---------- COUNTING (SUBREAD) ---------------------
 #featureCounts -p -O -T n -a <example_genome_annotation.gtf> -o fichier_output.txt <sorted_example_alignment.bam>

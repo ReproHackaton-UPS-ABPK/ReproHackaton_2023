@@ -20,5 +20,11 @@
 #---------- MAPPING ---------------------
 #bowtie2 -x aureusIndex -U SRR10379726_trimmed.fq.gz -S SRR10379726_mapped.sam
 
+#---------- CONVERSION DU SAM EN BAM ---------------------
+#samtools view -bS -o output.bam SRR10379726_test.sam
+
+#---------- CONVERSION DES ANNOTATIONS GFF EN GTF ---------------------
+#gffread reference.gff -T -o reference.gtf
+
 #---------- COUNTING (SUBREAD) ---------------------
-#featureCounts -p -O -T n -a <example_genome_annotation.gtf> -o fichier_output.txt <sorted_example_alignment.bam>
+#featureCounts -p -O -a reference.gtf -o output_count.txt output.bam

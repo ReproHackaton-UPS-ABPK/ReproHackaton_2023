@@ -12,5 +12,6 @@
 #wget -O ~/ReproHackaton_2023/ressources/genomes/reference.gff "https://www.ncbi.nlm.nih.gov/sviewer/viewer.cgi?db=nuccore&report=gff3&id=CP000253.1"
 #trim_galore -q 20 --phred33 --length 25 <FASTQ FILE>
 
-#bowtie2 index
+#----------------------------Bowtie2 index---------------------------------
+
 #bowtie2-build reference.fasta aureusIndex

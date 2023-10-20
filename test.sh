@@ -15,8 +15,7 @@
 #bowtie2-build reference.fasta aureusIndex
 
 #---------- TRIMMING : suppression des gènes indésirables ---------------------
-#trim_galore -q 20 --phred33 --length 25 <fichier.fastq.gz>
+#trim_galore -q 20 --phred33 --length 25 SRR10379726.fastq.gz
 
 #---------- MAPPING ---------------------
-#bowtie2 -x aureusIndex -U <fichier.fastq.gz> -S test.sam
-
+#bowtie2 -x aureusIndex -U SRR10379726_trimmed.fq.gz -S SRR10379726_test.sam

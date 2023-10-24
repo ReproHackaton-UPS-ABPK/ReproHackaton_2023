@@ -1,17 +1,16 @@
-configfile: "config.yaml"
+configfile: "workflow/config.yaml"
 
 rule all:
-    input: expand("fastqs/{accession}.fastq", accession=config["SRR"])
+    input: 
+        expand("fastqs/{accession}.fastq.gz", accession=config["SRR"])
 
 rule telechargement_sequences:
-    input: 
-        "{}"
     output:
         "fastqs/{sracode}.fastq"
     container: 
         "docker://pegi3s/sratoolkit"
     shell:
-        "fasterq-dump {}" #Mettre chaque code SRR !!!!
+        "cd fastqs && fasterq-dump {wildcards.sracode}"
 
 rule compresion_sequences:
     input: 
@@ -21,7 +20,7 @@ rule compresion_sequences:
     container: 
         "docker://pegi3s/sratoolkit"
     shell:
-        "gzip {input} > {output}" # Pas sur de l'output
+        "gzip {input}"
 
 #rule bowtie_index:
 #    input: "ressources/genomes/reference.fasta"
@@ -30,22 +29,22 @@ rule compresion_sequences:
 #    shell:
 #        'bowtie2-build {input} {output}'
 
-rule trimming:
-    input: 
-        "fastqs/{sracode}.fastq.gz
-    output: 
-        "trimmed/{sracode}_trimmed.fq.gz"
-    container: 
-        DOCKERFILE
-    shell:
-        "trim_galore -q 20 --phred33 --length 25 {input} > {output}" # Pas sur de l'output
+#rule trimming:
+#    input: 
+#        "fastqs/{sracode}.fastq.gz
+#    output: 
+#        "trimmed/{sracode}_trimmed.fq.gz"
+#    container: 
+#        DOCKERFILE
+#    shell:
+#        "trim_galore -q 20 --phred33 --length 25 {input} > {output}" # Pas sur de l'output
 
-rule mapping:
-    input: 
-        "trimmed/{sracode}_trimmed.fq.gz"
-    container: 
-        "docker://nanozoo/bowtie2"
-    output: 
-        "mapped/{sracode}_mapped.sam"
-    shell:
-        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"
+#rule mapping:
+#    input: 
+#        "trimmed/{sracode}_trimmed.fq.gz"
+#    container: 
+#        "docker://nanozoo/bowtie2"
+#    output: 
+#        "mapped/{sracode}_mapped.sam"
+#    shell:
+#        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"

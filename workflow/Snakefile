@@ -1,13 +1,22 @@
-#rule telechargement_sequences:
-#    container: 'docker://pegi3s/sratoolkit'
-#    shell:
-#        'fasterq-dump SRR10379721'
+rule telechargement_sequences:
+    input: 
+        "{}"
+    output:
+        "ressources/fastqs/{sracode}.fastq"
+    container: 
+        "docker://pegi3s/sratoolkit"
+    shell:
+        "fasterq-dump {}" #Mettre chaque code SRR !!!!
 
-#rule compresion_sequences: PROBLÉME WARNING
-#    input: "SRR10379721.fastq"
-#    container: 'docker://pegi3s/sratoolkit'
-#    shell:
-#        'gzip {input}'
+rule compresion_sequences:
+    input: 
+        "ressources/fastqs/{sracode}.fastq"
+    output:
+        "ressources/fastqs/{sracode}.fastq.gz"
+    container: 
+        "docker://pegi3s/sratoolkit"
+    shell:
+        "gzip {input} > {output}" # Pas sur de l'output
 
 #rule bowtie_index:
 #    input: "ressources/genomes/reference.fasta"
@@ -16,15 +25,22 @@
 #    shell:
 #        'bowtie2-build {input} {output}'
 
-#rule trimming:
-#    input:
-#    container: DOCKERFILE
-#    shell:
-#        'trim_galore -q 20 --phred33 --length 25 <fichier.fastq.gz>'
+rule trimming:
+    input: 
+        "ressources/fastqs/{sracode}.fastq.gz
+    output: 
+        "ressouces/trimmed/{sracode}_trimmed.fq.gz"
+    container: 
+        DOCKERFILE
+    shell:
+        "trim_galore -q 20 --phred33 --length 25 {input} > {output}" # Pas sur de l'output
 
-#rule mapping:
-    #input: "SRR10379721_trimmed.fq.gz"
-    #container: 'docker://nanozoo/bowtie2'
-    #output: "SRR10379721_mapped.sam"
-    #shell:
-        #'bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}'
+rule mapping:
+    input: 
+        "ressouces/trimmed/{sracode}_trimmed.fq.gz"
+    container: 
+        "docker://nanozoo/bowtie2"
+    output: 
+        "ressouces/mapped/{sracode}_mapped.sam"
+    shell:
+        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"

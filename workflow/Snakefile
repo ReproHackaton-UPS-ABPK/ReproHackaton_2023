@@ -1,8 +1,13 @@
+configfile: "config.yaml"
+
+rule all:
+    input: expand("fastqs/{accession}.fastq", accession=config["SRR"])
+
 rule telechargement_sequences:
     input: 
         "{}"
     output:
-        "ressources/fastqs/{sracode}.fastq"
+        "fastqs/{sracode}.fastq"
     container: 
         "docker://pegi3s/sratoolkit"
     shell:
@@ -10,9 +15,9 @@ rule telechargement_sequences:
 
 rule compresion_sequences:
     input: 
-        "ressources/fastqs/{sracode}.fastq"
+        "fastqs/{sracode}.fastq"
     output:
-        "ressources/fastqs/{sracode}.fastq.gz"
+        "fastqs/{sracode}.fastq.gz"
     container: 
         "docker://pegi3s/sratoolkit"
     shell:
@@ -27,9 +32,9 @@ rule compresion_sequences:
 
 rule trimming:
     input: 
-        "ressources/fastqs/{sracode}.fastq.gz
+        "fastqs/{sracode}.fastq.gz
     output: 
-        "ressouces/trimmed/{sracode}_trimmed.fq.gz"
+        "trimmed/{sracode}_trimmed.fq.gz"
     container: 
         DOCKERFILE
     shell:
@@ -37,10 +42,10 @@ rule trimming:
 
 rule mapping:
     input: 
-        "ressouces/trimmed/{sracode}_trimmed.fq.gz"
+        "trimmed/{sracode}_trimmed.fq.gz"
     container: 
         "docker://nanozoo/bowtie2"
     output: 
-        "ressouces/mapped/{sracode}_mapped.sam"
+        "mapped/{sracode}_mapped.sam"
     shell:
         "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"

@@ -1,14 +1,18 @@
 configfile: "workflow/config.yaml"
-
 rule all:
-    input: 
-        expand("fastqs/{accession}.fastq.gz", accession=config["SRR"])
-
+    input:
+        #expand("fastqs/{accession}.fastq.gz", accession=config["SRR"]),
+        #expand("trimmed/{accession}_trimmed.fq.gz", accession=config["SRR"]),
+        #expand("mapped/{accession}.sam", accession=config["SRR"]),
+        #expand("mapped/{accession}.bam", accession=config["SRR"]),
+        #expand("ressources/genomes/reference.gtf"),
+        expand("count/{accession}.txt", accession=config["SRR"])
+        
 rule telechargement_sequences:
     output:
         "fastqs/{sracode}.fastq"
     container: 
-        "docker://pegi3s/sratoolkit"
+        "~/ReproHackaton_2023/Docker/sratoolkit/sratoolkit_3.0.7.sif"
     shell:
         "cd fastqs && fasterq-dump {wildcards.sracode}"
 
@@ -18,33 +22,65 @@ rule compresion_sequences:
     output:
         "fastqs/{sracode}.fastq.gz"
     container: 
-        "docker://pegi3s/sratoolkit"
+        "~/ReproHackaton_2023/Docker/sratoolkit/sratoolkit_3.0.7.sif"
     shell:
         "gzip {input}"
 
 #rule bowtie_index:
 #    input: "ressources/genomes/reference.fasta"
-#    output: "ressources/index/aureusindex"
+#    output: "ressources/index/aureusindex.{suffix}.bt2"
 #    container: 'docker://nanozoo/bowtie2'
 #    shell:
-#        'bowtie2-build {input} {output}'
+#        'bowtie2-build {input} ressources/index/aureusindex'
 
-#rule trimming:
-#    input: 
-#        "fastqs/{sracode}.fastq.gz
-#    output: 
-#        "trimmed/{sracode}_trimmed.fq.gz"
-#    container: 
-#        DOCKERFILE
-#    shell:
-#        "trim_galore -q 20 --phred33 --length 25 {input} > {output}" # Pas sur de l'output
+rule trimming:
+    input: 
+        "fastqs/{sracode}.fastq.gz"
+    output: 
+        "trimmed/{sracode}_trimmed.fq.gz"
+    container: 
+        "~/ReproHackaton_2023/Docker/trim_galore/trim_galore_0.6.10.sif"
+    shell:
+        "trim_galore -q 20 --phred33 --length 25 --output_dir trimmed {input}"
 
-#rule mapping:
-#    input: 
-#        "trimmed/{sracode}_trimmed.fq.gz"
-#    container: 
-#        "docker://nanozoo/bowtie2"
-#    output: 
-#        "mapped/{sracode}_mapped.sam"
-#    shell:
-#        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"
+rule mapping:
+    input: 
+        "trimmed/{sracode}_trimmed.fq.gz"
+    output: 
+        "mapped/{sracode}.sam"
+    container: 
+        "docker://nanozoo/bowtie2"
+    shell:
+        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"
+
+
+rule samTobam:
+    input: 
+        "mapped/{sracode}.sam"
+    output: 
+        "mapped/{sracode}.bam"
+    container:
+        "docker://staphb/samtools"
+    shell:
+        "samtools view -bS -o {output} {input}"
+
+rule gffTogtf:
+    input: 
+        "ressources/genomes/reference.gff"
+    output: 
+        "ressources/genomes/reference.gtf"
+    container: 
+        "docker://bschiffthaler/gffread"
+    shell:
+        "gffread {input} -T -o {output}"
+
+rule counting:
+    input: 
+        ref = "ressources/genomes/reference.gtf",
+        bam = "mapped/{sracode}.bam"
+    output: 
+        "count/{sracode}.txt"
+    container: 
+        "docker://genomicpariscentre/subread"
+    shell:
+        "featureCounts -p -O -a {input.ref} -o {output} {input.bam}"

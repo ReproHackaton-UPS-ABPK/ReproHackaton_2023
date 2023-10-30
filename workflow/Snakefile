@@ -5,7 +5,8 @@ rule all:
         #expand("trimmed/{accession}_trimmed.fq.gz", accession=config["SRR"]),
         #expand("mapped/{accession}.sam", accession=config["SRR"]),
         #expand("mapped/{accession}.bam", accession=config["SRR"]),
-        #expand("ressources/genomes/reference.gtf"),
+        #"ressources/genomes/reference.gtf",
+        #expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
         expand("count/{accession}.txt", accession=config["SRR"])
         
 rule telechargement_sequences:
@@ -26,12 +27,15 @@ rule compresion_sequences:
     shell:
         "gzip {input}"
 
-#rule bowtie_index:
-#    input: "ressources/genomes/reference.fasta"
-#    output: "ressources/index/aureusindex.{suffix}.bt2"
-#    container: 'docker://nanozoo/bowtie2'
-#    shell:
-#        'bowtie2-build {input} ressources/index/aureusindex'
+rule bowtie_index:
+    input: 
+        "ressources/genomes/reference.fasta"
+    output: 
+        "index/aureusIndex.{suffix}.bt2"
+    container: 
+        "docker://nanozoo/bowtie2"
+    shell:
+        "bowtie2-build {input} index/aureusIndex"
 
 rule trimming:
     input: 
@@ -51,7 +55,7 @@ rule mapping:
     container: 
         "docker://nanozoo/bowtie2"
     shell:
-        "bowtie2 -x ressources/genomes/aureusIndex -U {input} -S {output}"
+        "bowtie2 -x index/aureusIndex -U {input} -S {output}"
 
 
 rule samTobam:

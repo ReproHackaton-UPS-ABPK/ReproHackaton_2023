@@ -6,7 +6,7 @@ rule all:
         #expand("mapped/{accession}.sam", accession=config["SRR"]),
         #expand("mapped/{accession}.bam", accession=config["SRR"]),
         #"ressources/genomes/reference.gtf",
-        #expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
+        expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
         expand("count/{accession}.txt", accession=config["SRR"])
         
 rule telechargement_sequences:

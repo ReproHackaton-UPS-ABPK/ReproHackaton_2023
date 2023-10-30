@@ -88,3 +88,13 @@ rule counting:
         "docker://genomicpariscentre/subread"
     shell:
         "featureCounts -p -O -a {input.ref} -o {output} {input.bam}"
+    
+rule analyse_stat:
+    input:
+        "count/{sracode}.txt"
+    output:
+        "results/ALGO.R"
+    container:
+        "~/ReproHackaton_2023/Docker/deseq2/trim_galore_0.6.10.sif"
+    script:
+        "scripts/script.R"

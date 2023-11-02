@@ -94,7 +94,8 @@ rule counting:
     
 rule analyse_stat:
     input:
-        expand("count/{accession}.txt", accession=config["SRR"])
+        counts = expand("count/{accession}.txt", accession=config["SRR"])
+        ref = "~/ReproHackaton_2023/ressources/genomes/translation.txt"
     output:
         "results/ALGO.R"
     container:

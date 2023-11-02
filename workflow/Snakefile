@@ -62,12 +62,13 @@ rule samTobam:
     input: 
         "mapped/{sracode}.sam"
     output: 
-        "mapped/{sracode}.bam"
+        bam = "mapped/{sracode}.bam"
+        bamSort = "mapped/sort_{sracode}.bam"
+        bamIndex = "mapped/sort_{sracode}.bam.bai"
     container:
         "docker://staphb/samtools"
     shell:
-        "samtools view -bS -o {output} {input}"
-
+        "samtools view -bS -o {output.bam} {input} && samtools sort -O bam -o {output.bamSort} {output.bam} && samtools index {output.bamSort}"
 rule gffTogtf:
     input: 
         "ressources/genomes/reference.gff"

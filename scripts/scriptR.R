@@ -10,10 +10,10 @@ library(dplyr)
 samples = read.table("/Users/nada/Desktop/dossier_repro/output_count.txt", sep = "\t", header = T, skip = 1)
 #in this file I don't have the condition column 
 #format problem
-gene_counts <- samples [,c("Geneid","X.Users.nada.ReproHackaton_2023.output.bam")]
+gene_counts <- samples [,c("Geneid","sorted_output.bam")]
 head('gene_counts')
-names(gene_counts)[names(gene_counts)=="X.Users.nada.ReproHackaton_2023.output.bam"]<- "Sample1 "
-gene_counts$Sample2 <- sample(0:1000, 77, replace = TRUE) #à modifier pour pi
+names(gene_counts)[names(gene_counts)=="sorted_output.bam"]<- "Sample1 "
+gene_counts$Sample2 <- sample(0:1000, 77, replace = TRUE)
 gene_counts$Sample3 <- sample(0:1000, 77, replace = TRUE)
 gene_counts$Sample4 <- sample(0:1000, 77, replace = TRUE)
 gene_counts$Sample5 <- sample(0:1000, 77, replace = TRUE)

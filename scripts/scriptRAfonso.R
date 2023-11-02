@@ -50,7 +50,8 @@ vecteur_translation$V1 = gsub("\\s*","",vecteur_translation$V1)
 diff.df$Is_Translation[diff.df$Gene_Name %in% vecteur_translation$V1] = "Yes"
 vecteur_circled = vecteur_translation$V1[72:156]
 
-#To plot only translation 
+#To plot only translation
+dev.size()
 diff.df %>% 
   filter(Is_Translation == "Yes") %>%
   ggplot(aes(x = log2(baseMean), y = log2FoldChange,col = padj < 0.1)) + 
@@ -65,8 +66,11 @@ diff.df %>%
   ggtitle("MA-plot of genes related to translation") +
   xlab("Log2 base Mean") +
   ggrepel::geom_text_repel(data = filter(diff.df, log2FoldChange > 2),aes(label = Gene_Name))
+ggsave("results/plot1.pdf")
+dev.off()
 
 #To plot everything
+dev.size()
 diff.df %>% ggplot(aes(x = baseMean, y = log2FoldChange, col = padj < 0.1)) + 
   geom_point() + 
   theme_classic() +
@@ -74,21 +78,15 @@ diff.df %>% ggplot(aes(x = baseMean, y = log2FoldChange, col = padj < 0.1)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of complete RNA-seq dataset") +
   xlab("Mean of normalized counts")
+ggsave("results/plot2.pdf")
+dev.off()
 
 #heatmap_plot
 res.df <- as.data.frame(res)
-res.df                       
 mat<- counts(dds_post,normalized = TRUE)
-mat
 mat.z<-t(apply(mat,1,scale))
 colnames(mat.z)<-rownames(type_tab)
-mat.z
-heatmap(mat.z, cluster_rows = T, cluster_columns = T, column_labels = colnames(mat.z), name ='Z-score')
 
 
-
-
-
-
-
-
+heatmap(mat.z, cluster_rows = T, cluster_columns = T, column_labels = colnames(mat.z), name ='Z-score', cexCol=1)
+dev.copy2pdf(file="results/heatmap.pdf")

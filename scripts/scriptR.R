@@ -6,19 +6,18 @@ library(ggplot2)
 install.packages("dplyr") # A ajouter au container 
 library(dplyr)
 
-
-# lecture des donnees de comptage
+#Reading count data
 samples = read.table("/Users/nada/Desktop/dossier_repro/output_count.txt", sep = "\t", header = T, skip = 1)
-#dans ce fichier je n'ai pas la colonne de condition 
-#problème de format
+#in this file I don't have the condition column 
+#format problem
 gene_counts <- samples [,c("Geneid","X.Users.nada.ReproHackaton_2023.output.bam")]
 head('gene_counts')
 names(gene_counts)[names(gene_counts)=="X.Users.nada.ReproHackaton_2023.output.bam"]<- "Sample1 "
-gene_counts$Sample2 <- sample(0:1000, 77, replace = TRUE) #à modifier dans workflow
-gene_counts$Sample3 <- sample(0:1000, 77, replace = TRUE) #à modifier dans workflow
-gene_counts$Sample4 <- sample(0:1000, 77, replace = TRUE) #à modifier dans workflow
-gene_counts$Sample5 <- sample(0:1000, 77, replace = TRUE) #à modifier dans workflow
-gene_counts$Sample6 <- sample(0:1000, 77, replace = TRUE) #à modifier dans workflow
+gene_counts$Sample2 <- sample(0:1000, 77, replace = TRUE) #à modifier pour pi
+gene_counts$Sample3 <- sample(0:1000, 77, replace = TRUE)
+gene_counts$Sample4 <- sample(0:1000, 77, replace = TRUE)
+gene_counts$Sample5 <- sample(0:1000, 77, replace = TRUE)
+gene_counts$Sample6 <- sample(0:1000, 77, replace = TRUE)
 
 samples_column <- c ("Sample1","Sample2","Sample3","Sample4","Sample5","Sample6")
 type_column <- c ("persister","persister","persister","control","control","control")
@@ -50,6 +49,7 @@ dds <-dds [keep,]
 dds 
 
 #set the factor level
+dds$Type <- as.factor(dds$Type)
 dds$Type <- relevel(dds$Type, ref="control")
 
 #NOTE : collapse technical replicates
@@ -65,9 +65,7 @@ res0.01 <- results(dds, alpha =0.01)
 summary(res0.01)
 resultsNames(dds)
 
-
-##### New Things ####
-#To plot
+#Preliminary operations for plot creation
 diff.df = as.data.frame(results(dds))
 diff.df$Gene_Name = gsub("gene-","",rownames(diff.df))
 diff.df$Is_Translation = "No"
@@ -110,7 +108,4 @@ mat.z<-t(apply(mat,1,scale))
 colnames(mat.z)<-rownames(type_tab)
 mat.z
 heatmap(mat.z, cluster_rows = T, cluster_columns = T, column_labels = colnames(mat.z), name ='Z-score')
-
-
-
 

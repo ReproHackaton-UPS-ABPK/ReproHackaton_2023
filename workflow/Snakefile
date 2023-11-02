@@ -62,8 +62,8 @@ rule samTobam:
     input: 
         "mapped/{sracode}.sam"
     output: 
-        bam = "mapped/{sracode}.bam"
-        bamSort = "mapped/sort_{sracode}.bam"
+        bam = "mapped/{sracode}.bam",
+        bamSort = "mapped/sort_{sracode}.bam",
         bamIndex = "mapped/sort_{sracode}.bam.bai"
     container:
         "docker://staphb/samtools"
@@ -99,3 +99,4 @@ rule analyse_stat:
         "~/ReproHackaton_2023/Docker/deseq2/trim_galore_0.6.10.sif"
     script:
         "scripts/script.R"
+

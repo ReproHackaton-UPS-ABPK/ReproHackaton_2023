@@ -21,13 +21,9 @@
 #bowtie2 -x aureusIndex -U SRR10379726_trimmed.fq.gz -S SRR10379726_mapped.sam
 
 #---------- CONVERSION DU SAM EN BAM et CRÉATION DE L'INDEX DU BAM ---------------------
-#samtools view -bS -o output.bam SRR10379726_test.sam
+#samtools view -bS -o output.bam SRR10379726_mapped.sam
 #samtools sort -O bam -o sorted_output.bam output.bam
 #samtools index sorted_output.bam
 
-#---------- CONVERSION DES ANNOTATIONS GFF EN GTF ---------------------
-#gffread reference.gff -T -o reference.gtf
-
 #---------- COUNTING (SUBREAD) ---------------------
-#featureCounts -p -O -a reference.gtf -o output_count.txt sorted_output.bam
-
+#featureCounts -a reference.gff -t gene -g ID -F GFF3 -o output_count.txt sorted_output.bam

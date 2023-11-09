@@ -5,9 +5,8 @@ rule all:
         #expand("trimmed/{accession}_trimmed.fq.gz", accession=config["SRR"]),
         #expand("mapped/{accession}.sam", accession=config["SRR"]),
         #expand("mapped/{accession}.bam", accession=config["SRR"]),
-        #"ressources/genomes/reference.gtf",
-        #expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
-        #expand("count/{accession}.txt", accession=config["SRR"]),
+        expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
+        expand("count/{accession}.txt", accession=config["SRR"]),
         "results/plot2.pdf",
         "results/plot1.pdf"
         
@@ -73,26 +72,17 @@ rule samTobam:
         ("samtools view -bS -o {output.bam} {input} \
         && samtools sort -O bam -o {output.bamSort} {output.bam} \
         && samtools index {output.bamSort}")
-rule gffTogtf:
-    input: 
-        "ressources/genomes/reference.gff"
-    output: 
-        "ressources/genomes/reference.gtf"
-    container: 
-        "docker://bschiffthaler/gffread"
-    shell:
-        "gffread {input} -T -o {output}"
 
 rule counting:
     input: 
-        ref = "ressources/genomes/reference.gtf",
+        ref = "ressources/genomes/reference.gff",
         bam = "mapped/sort_{sracode}.bam"
     output: 
         "count/{sracode}.txt"
     container: 
         "docker://genomicpariscentre/subread"
     shell:
-        "featureCounts -p -O -a {input.ref} -o {output} {input.bam}"
+        "featureCounts -a {input.ref} -t gene -g ID -F GFF3 -o {output} {input.bam}"
     
 rule analyse_stat:
     input:

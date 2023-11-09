@@ -13,11 +13,11 @@ samples = read.table("/Users/nada/Desktop/dossier_repro/output_count.txt", sep =
 gene_counts <- samples [,c("Geneid","sorted_output.bam")]
 head('gene_counts')
 names(gene_counts)[names(gene_counts)=="sorted_output.bam"]<- "Sample1 "
-gene_counts$Sample2 <- sample(0:1000, 77, replace = TRUE)
-gene_counts$Sample3 <- sample(0:1000, 77, replace = TRUE)
-gene_counts$Sample4 <- sample(0:1000, 77, replace = TRUE)
-gene_counts$Sample5 <- sample(0:1000, 77, replace = TRUE)
-gene_counts$Sample6 <- sample(0:1000, 77, replace = TRUE)
+gene_counts$Sample2 <- sample(0:1000, 2967, replace = TRUE)
+gene_counts$Sample3 <- sample(0:1000, 2967, replace = TRUE)
+gene_counts$Sample4 <- sample(0:1000, 2967, replace = TRUE)
+gene_counts$Sample5 <- sample(0:1000, 2967, replace = TRUE)
+gene_counts$Sample6 <- sample(0:1000, 2967, replace = TRUE)
 
 samples_column <- c ("Sample1","Sample2","Sample3","Sample4","Sample5","Sample6")
 type_column <- c ("persister","persister","persister","control","control","control")

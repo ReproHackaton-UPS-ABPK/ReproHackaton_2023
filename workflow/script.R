@@ -39,7 +39,6 @@ res <- results(dds_post, alpha = 0.05)
 ###################################################################################################
 
 
-
 diff.df = as.data.frame(results(dds_post))
 diff.df$Gene_Name = gsub("gene-","",rownames(diff.df))
 diff.df$Is_Translation = "No"
@@ -47,6 +46,15 @@ vecteur_translation = read.table(snakemake@input[[7]], sep = "\t", header = F)
 vecteur_translation$V1 = gsub("\\s*","",vecteur_translation$V1)
 diff.df$Is_Translation[diff.df$Gene_Name %in% vecteur_translation$V1] = "Yes"
 vecteur_circled = vecteur_translation$V1[72:156]
+
+#Extracting transformed values
+counts_matrix <- assay(dds)
+write.csv(counts_matrix, file=snakemake@output[[3]])
+
+plotma = plotMA(res,colSig = "red",colNonSig = "gray50", returnData = TRUE) 
+pdf(snakemake@output[[2]]) 
+plotMA(res,colSig = "red",colNonSig = "gray50") 
+dev.off()
 
 #To plot only translation
 dev.size()
@@ -67,24 +75,15 @@ diff.df %>%
 ggsave(snakemake@output[[1]])
 dev.off()
 
-#To plot everything
 dev.size()
-diff.df %>% ggplot(aes(x = baseMean, y = log2FoldChange, col = padj < 0.1)) + 
-  geom_point() + 
+  ggplot(plotma, aes(x = mean, y = lfc, col = isDE)) +
+  geom_point() +
   theme_classic() +
   scale_color_manual(values = c("grey50", "red")) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of complete RNA-seq dataset") +
-  xlab("Mean of normalized counts")
-ggsave(snakemake@output[[2]])
+  ylab("Log fold change") +
+  xlab("Mean of normalized counts") +
+  scale_x_log10()
+ggsave(snakemake@output[[4]])
 dev.off()
-
-#heatmap_plot
-res.df <- as.data.frame(res)
-mat<- counts(dds_post,normalized = TRUE)
-mat.z<-t(apply(mat,1,scale))
-colnames(mat.z)<-rownames(type_tab)
-
-
-#heatmap(mat.z, cluster_rows = T, cluster_columns = T, column_labels = colnames(mat.z), name ='Z-score', cexCol=1)
-#dev.copy2pdf(file="results/heatmap.pdf")

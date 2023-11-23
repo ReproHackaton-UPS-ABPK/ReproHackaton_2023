@@ -86,8 +86,9 @@ rule analyse_stat:
         "ressources/genomes/translation.txt"
     output:
         "results/plot2.pdf",
-        "results/plot1.pdf"
-        #"results/heatmap.pdf"
+        "results/plot1.pdf",
+        "results/matrix.csv",
+        "results/plot1.1.pdf"
     container:
         "docker://julagu/deseq2_r_4.3.0"
     script:

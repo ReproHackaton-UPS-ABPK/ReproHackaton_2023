@@ -38,6 +38,11 @@ dds_post <- DESeq(dds)
 res <- results(dds_post, alpha = 0.05)
 
 
+genes_interet <- data.frame(sigla = c('frr', 'infA', 'tsf', 'infC', 'infB', 'pth'),
+                            id = c('SAOUHSC_01236', 'SAOUHSC_02489', 'SAOUHSC_01234',
+                                   'SAOUHSC_01786', 'SAOUHSC_01246', 'SAOUHSC_00475'))
+
+
 ###################################################################################################
 
 
@@ -56,6 +61,15 @@ write.csv(counts_matrix, file=snakemake@output[[3]])
 
 plotma = plotMA(res,colSig = "red",colNonSig = "gray50", returnData = TRUE) 
 
+diff.df$sigla = 'a'
+for(i in 1:nrow(diff.df)){
+  ligne = diff.df[i,]
+  gene_name = ligne[,'Gene_Name']
+  if(gene_name %in% genes_interet$id){
+    diff.df[diff.df$Gene_Name == gene_name, 'sigla'] = genes_interet[genes_interet$id == gene_name, 'sigla']
+  }
+}
+
 #To plot only translation
 dev.size()
 diff.df %>% 
@@ -71,7 +85,15 @@ diff.df %>%
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of genes related to translation") +
   xlab("Log2 base Mean") +
-  ggrepel::geom_text_repel(data = filter(diff.df, log2FoldChange > 2),aes(label = Gene_Name))
+  ggrepel::geom_text_repel(data = subset(diff.df, diff.df$sigla != 'a'),
+                           aes(label = sigla),
+                           size = 5,
+                           box.padding = 2,
+                           point.padding = 0.1,
+                           max.overlaps = Inf,
+                           min.segment.length = 0,
+                           segment.color = 'black',
+                           colour = "black")
 ggsave(snakemake@output[[1]])
 dev.off()
 

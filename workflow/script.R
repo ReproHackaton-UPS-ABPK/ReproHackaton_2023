@@ -15,10 +15,12 @@ for(i in 1:6){
   ensembleCounts[[i]] <- read.table(path, header = T, skip = 1, sep = '\t')
 }
 
-tableCounts <- data.frame(sample1 = ensembleCounts[[1]]$mapped.sort_SRR10379721.bam,
-                          sample2 = ensembleCounts[[2]]$mapped.sort_SRR10379722.bam, sample3 = ensembleCounts[[3]]$mapped.sort_SRR10379723.bam,
-                          sample4 = ensembleCounts[[4]]$mapped.sort_SRR10379724.bam, sample5 = ensembleCounts[[5]]$mapped.sort_SRR10379725.bam,
-                          sample6 = ensembleCounts[[6]]$mapped.sort_SRR10379726.bam)
+tableCounts <- data.frame(IP1 = ensembleCounts[[1]]$mapped.sort_SRR10379721.bam,
+                          IP2 = ensembleCounts[[2]]$mapped.sort_SRR10379722.bam, 
+                          IP3 = ensembleCounts[[3]]$mapped.sort_SRR10379723.bam,
+                          control4 = ensembleCounts[[4]]$mapped.sort_SRR10379724.bam, 
+                          control5 = ensembleCounts[[5]]$mapped.sort_SRR10379725.bam,
+                          control6 = ensembleCounts[[6]]$mapped.sort_SRR10379726.bam)
 rownames(tableCounts) <- ensembleCounts[[1]]$Geneid
 
 samples_column <- c(colnames(tableCounts))
@@ -49,12 +51,10 @@ vecteur_circled = vecteur_translation$V1[72:156]
 
 #Extracting transformed values
 counts_matrix <- assay(dds)
+counts_matrix <- cbind(counts_matrix, diff.df[,1:6])
 write.csv(counts_matrix, file=snakemake@output[[3]])
 
 plotma = plotMA(res,colSig = "red",colNonSig = "gray50", returnData = TRUE) 
-pdf(snakemake@output[[2]]) 
-plotMA(res,colSig = "red",colNonSig = "gray50") 
-dev.off()
 
 #To plot only translation
 dev.size()
@@ -77,13 +77,16 @@ dev.off()
 
 dev.size()
   ggplot(plotma, aes(x = mean, y = lfc, col = isDE)) +
-  geom_point() +
+  geom_point(size=0.9) +
   theme_classic() +
-  scale_color_manual(values = c("grey50", "red")) +
+  theme(legend.position = c(.15, .9)) +
+  labs(colour = NULL) +
+  scale_fill_discrete(labels=c('label1', 'label2')) +
+  scale_color_manual(labels = c("Non Significant", "Significant"), values = c("grey50", "red")) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of complete RNA-seq dataset") +
-  ylab("Log fold change") +
-  xlab("Mean of normalized counts") +
+  ylab("Log fold change") + 
+  xlab("Mean of normalized counts")+
   scale_x_log10()
-ggsave(snakemake@output[[4]])
+ggsave(snakemake@output[[2]])
 dev.off()

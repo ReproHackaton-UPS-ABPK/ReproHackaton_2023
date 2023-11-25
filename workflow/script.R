@@ -59,7 +59,9 @@ counts_matrix <- assay(dds)
 counts_matrix <- cbind(counts_matrix, diff.df[,1:6])
 write.csv(counts_matrix, file=snakemake@output[[3]])
 
-plotma = plotMA(res,colSig = "red",colNonSig = "gray50", returnData = TRUE) 
+plotma = plotMA(res,colSig = "red",colNonSig = "gray50", returnData = TRUE)
+
+diff.df <- na.omit(diff.df)
 
 diff.df$sigla = 'a'
 for(i in 1:nrow(diff.df)){
@@ -74,14 +76,16 @@ for(i in 1:nrow(diff.df)){
 dev.size()
 diff.df %>% 
   filter(Is_Translation == "Yes") %>%
-  ggplot(aes(x = log2(baseMean), y = log2FoldChange,col = padj < 0.1)) + 
-  geom_point() + 
+  ggplot(aes(x = log2(baseMean), y = log2FoldChange,colour = padj < 0.1)) + 
+  geom_point() +
   geom_point(data = diff.df %>% filter(Gene_Name %in% vecteur_circled), 
              pch = 21, 
-             colour = "black", 
+             colour = "black",
              size = 2) +
   theme_classic() +
-  scale_color_manual(values = c("grey50", "red")) +
+  theme(legend.position = c(.15, .1)) +
+  labs(colour = NULL) +
+  scale_color_manual(labels = c("Non Significant", "Significant"), values = c("grey50", "red")) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of genes related to translation") +
   xlab("Log2 base Mean") +
@@ -103,7 +107,6 @@ dev.size()
   theme_classic() +
   theme(legend.position = c(.15, .9)) +
   labs(colour = NULL) +
-  scale_fill_discrete(labels=c('label1', 'label2')) +
   scale_color_manual(labels = c("Non Significant", "Significant"), values = c("grey50", "red")) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   ggtitle("MA-plot of complete RNA-seq dataset") +

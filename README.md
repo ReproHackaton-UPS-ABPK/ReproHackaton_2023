@@ -45,15 +45,14 @@ La liste des résultats attendus est la suivante:
 Tous les outils mentionnés (sauf Snakemake et Docker) se trouvent dans des conteneurs qui résident dans Docker-Hub, certains d'entre eux ont été développés pour ce projet, d'autres sont des conteneurs disponibles, développés par la communauté.
 
 * Conteneurs développés pour ce projet:
-
-    * sratoolkit : docker://julagu/sratoolkit_3.0.7
-    * cutadapt, fastqc et trim_galore : docker://julagu/trim_galore_0.6.10
-    * DESeq2 : docker://julagu/deseq2_r_4.3.0
+    * sratoolkit : [docker://julagu/sratoolkit_3.0.7](https://hub.docker.com/r/julagu/sratoolkit_3.0.7)
+    * cutadapt, fastqc et trim_galore : [docker://julagu/trim_galore_0.6.10](https://hub.docker.com/r/julagu/trim_galore_0.6.10)
+    * DESeq2 : [docker://julagu/deseq2_r_4.3.0](https://hub.docker.com/r/julagu/deseq2_r_4.3.0)
 
 * Conteneurs d'autres constructeurs:
-    * bowtie2 : docker://nanozoo/bowtie2
-    * samtools : docker://staphb/samtools
-    * subread : docker://staphb/samtools
+    * bowtie2 : [docker://nanozoo/bowtie2](https://hub.docker.com/r/nanozoo/bowtie2)
+    * samtools : [docker://staphb/samtools](https://hub.docker.com/r/staphb/samtools)
+    * subread : [docker://genomicpariscentre/subread](https://hub.docker.com/r/genomicpariscentre/subread)
 
 ##
 Liens des diapositives : (Weekly slides)[https://docs.google.com/presentation/d/1fjEN-x6hD_FPFjQ8IcJPGlG5etxT3W5sTkdrif7sDqI/edit?usp=sharing](https://docs.google.com/presentation/d/1Ra-zlHFUtDBsF_gb_fp-qqhgWLaTSuXA/edit#slide=id.p1)

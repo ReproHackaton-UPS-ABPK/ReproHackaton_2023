@@ -34,7 +34,7 @@ La liste des résultats attendus est la suivante:
     * **fastqc - 0.12.1**
     * **trim_galore - 0.6.10**
 * Pour faire le mapping des séquences et l'indexation des annotations du génome de référence : **Bowtie2 - 2.3.5**
-* Pour transformer les fichiers .sam, obtenus lors de la cartographie, en fichiers .bam : **samtools - 1.18**
+* Pour transformer les fichiers .sam, obtenus lors du mapping, en fichiers .bam : **samtools - 1.18**
 * Pour le comptage des gènes: **subread - 1.6.2**
 * Pour l'analyse statistique:
    * **DESeq2 - #TODO (sur R - 4.3.0)**

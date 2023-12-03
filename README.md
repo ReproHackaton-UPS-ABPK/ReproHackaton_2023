@@ -22,7 +22,7 @@ La liste des résultats attendus est la suivante:
 * MA-plot des gènes liés à la traduction.
 ### prérequis:
 * Snakemake.
-* Singularity.
+* Singularity (une version de préférence égale ou supérieure à 3.8.7).
 
 ## Quels sont les outils utilisés ?
 

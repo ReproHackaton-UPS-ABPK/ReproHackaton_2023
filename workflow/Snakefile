@@ -3,12 +3,12 @@ rule all:
     input:
         expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
         expand("count/{accession}.txt", accession=config["SRR"]),
-        "results/3.plot2.pdf",
-        "results/2.plot1.pdf",
-        "results/1.matrix_comptage.csv",
-        "results/4.volcano.pdf",
-        "results/6.boxplot.pdf",
-        "results/5.boxplot_article.pdf"
+        "results/plot2.pdf",
+        "results/plot1.pdf",
+        "results/matrix_comptage.csv",
+        "results/volcano.pdf",
+        "results/boxplot.pdf",
+        "results/boxplot_article.pdf"
         
 rule telechargement_sequences:
     output:
@@ -91,12 +91,12 @@ rule analyse_stat:
         "ressources/result_matrix/matrix_article.csv"
 
     output:
-        "results/3.plot2.pdf",
-        "results/2.plot1.pdf",
-        "results/1.matrix_comptage.csv",
-        "results/4.volcano.pdf",
-        "results/6.boxplot.pdf",
-        "results/5.boxplot_article.pdf"
+        "results/plot2.pdf",
+        "results/plot1.pdf",
+        "results/matrix_comptage.csv",
+        "results/volcano.pdf",
+        "results/boxplot.pdf",
+        "results/boxplot_article.pdf"
     container:
         "docker://julagu/deseq2_r_4.3.0"
     script:

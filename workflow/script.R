@@ -122,7 +122,7 @@ dev.size()
 ggplot( tablecounts_long, aes(sample,value, fill = sample)) +
   ylim(0, 2e+03) +
   geom_boxplot() +
-  theme_minimal()
+  theme_minimal() +
   labs(title = "Boxplot des échantillons",
        x = "Sample",
        y = "Valeur")
@@ -131,13 +131,13 @@ dev.off()
 
 # boxplot_article
 tableCounts_art <- read.csv(snakemake@input[[8]])
-tablecounts_long_art = pivot_longer(tableCounts_art, cols=7:12, names_to="sample")
+tablecounts_long_art = pivot_longer(tableCounts_art, cols=6:11, names_to="sample")
 dev.size()
 ggplot( tablecounts_long_art, aes(sample,value, fill = sample)) +
   ylim(0, 2e+03) +
   geom_boxplot() +
-  theme_minimal()
-  labs(title = "Boxplot des échantillons",
+  theme_minimal() +
+  labs(title = "Boxplot des échantillons de l'article",
        x = "Sample",
        y = "Valeur")
 ggsave(snakemake@output[[6]])

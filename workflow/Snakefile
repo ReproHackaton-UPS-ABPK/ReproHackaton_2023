@@ -9,7 +9,7 @@ rule all:
         "results/volcano.pdf",
         "results/boxplot.pdf",
         "results/boxplot_article.pdf"
-        
+                
 rule telechargement_sequences:
     output:
         "fastqs/{sracode}.fastq"

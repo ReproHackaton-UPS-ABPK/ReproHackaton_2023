@@ -44,6 +44,7 @@ La liste des résultats attendus est la suivante:
    * **ggplot2 - 3.4.4**
    * **dplyr - 1.1.3**
    * **ggrepel - 0.9.4**
+   * **tidyr - 1.3.0**
 
 ### Outils dockerisés :
 

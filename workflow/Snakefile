@@ -4,7 +4,11 @@ rule all:
         expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
         expand("count/{accession}.txt", accession=config["SRR"]),
         "results/plot2.pdf",
-        "results/plot1.pdf"
+        "results/plot1.pdf",
+        "results/matrix_comptage.csv",
+        "results/volcano.pdf",
+        "results/boxplot.pdf",
+        "results/boxplot_article.pdf"
         
 rule telechargement_sequences:
     output:
@@ -83,11 +87,16 @@ rule counting:
 rule analyse_stat:
     input:
         expand("count/{accession}.txt", accession=config["SRR"]),
-        "ressources/genomes/translation.txt"
+        "ressources/genomes/translation.txt",
+        "ressources/result_matrix/matrix_article.csv"
+
     output:
         "results/plot2.pdf",
         "results/plot1.pdf",
-        "results/matrix_comptage.csv"
+        "results/matrix_comptage.csv",
+        "results/volcano.pdf",
+        "results/boxplot.pdf",
+        "results/boxplot_article.pdf"
     container:
         "docker://julagu/deseq2_r_4.3.0"
     script:

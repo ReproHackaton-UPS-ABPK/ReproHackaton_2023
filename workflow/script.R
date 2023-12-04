@@ -1,6 +1,7 @@
 library(DESeq2)
 library(dplyr)
 library(ggplot2)
+library(tidyr)
 
 paths <- c(snakemake@input[[1]],
 snakemake@input[[2]],
@@ -74,8 +75,7 @@ for(i in 1:nrow(diff.df)){
 
 #To plot only translation
 dev.size()
-diff.df %>% 
-  filter(Is_Translation == "Yes") %>%
+diff.df %>% filter(Is_Translation == "Yes") %>%
   ggplot(aes(x = log2(baseMean), y = log2FoldChange,colour = padj < 0.1)) + 
   geom_point() +
   geom_point(data = diff.df %>% filter(Gene_Name %in% vecteur_circled), 
@@ -113,5 +113,45 @@ dev.size()
   ylab("Log fold change") + 
   xlab("Mean of normalized counts")+
   scale_x_log10()
-ggsave(snakemake@output[[2]])
+  ggsave(snakemake@output[[2]])
+dev.off()
+
+# boxplot 
+tablecounts_long = pivot_longer(tableCounts, cols=1:6, names_to="sample")
+dev.size()
+ggplot( tablecounts_long, aes(sample,value, fill = sample)) +
+  ylim(0, 2e+03) +
+  geom_boxplot() +
+  theme_minimal()
+  labs(title = "Boxplot des échantillons",
+       x = "Sample",
+       y = "Valeur")
+ggsave(snakemake@output[[5]])
+dev.off()
+
+# boxplot_article
+tableCounts_art <- read.csv(snakemake@input[[8]])
+tablecounts_long_art = pivot_longer(tableCounts_art, cols=7:12, names_to="sample")
+dev.size()
+ggplot( tablecounts_long_art, aes(sample,value, fill = sample)) +
+  ylim(0, 2e+03) +
+  geom_boxplot() +
+  theme_minimal()
+  labs(title = "Boxplot des échantillons",
+       x = "Sample",
+       y = "Valeur")
+ggsave(snakemake@output[[6]])
+dev.off()
+
+#volcanoplot
+res_df <- as.data.frame(res)
+dev.size()
+ggplot(res_df, aes(x = log2FoldChange, y = -log10(pvalue))) +
+  geom_point(aes(color = ifelse(abs(log2FoldChange) > 1 & padj < 0.05, "red", "black")), alpha = 0.7) +
+  scale_color_identity() +
+  theme_minimal() +
+  labs(title = "Volcanoplot des gènes exprimés de manière différentielle",
+       x = "Log2 Fold Change",
+       y = "-Log10 Adjusted P-value")
+ggsave(snakemake@output[[4]])
 dev.off()

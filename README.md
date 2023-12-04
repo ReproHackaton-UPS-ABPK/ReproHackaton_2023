@@ -22,7 +22,7 @@ La liste des résultats attendus est la suivante:
 * MA-plot des gènes liés à la traduction.
 ### prérequis:
 * Snakemake.
-* Singularity.
+* Singularity (une version de préférence égale ou supérieure à 3.8.7).
 
 ## Quels sont les outils utilisés ?
 
@@ -37,8 +37,14 @@ La liste des résultats attendus est la suivante:
 * Pour transformer les fichiers .sam, obtenus lors du mapping, en fichiers .bam : **samtools - 1.18**
 * Pour le comptage des gènes: **subread - 1.6.2**
 * Pour l'analyse statistique:
-   * **DESeq2 - #TODO (sur R - 4.3.0)**
-   * #TODO
+   * **R - 4.3.0**
+   * **Bioconducteur - 3.18**
+   * **BiocManager - 1.30.22**
+   * **DESeq2 - 1.42.0**   
+   * **ggplot2 - 3.4.4**
+   * **dplyr - 1.1.3**
+   * **ggrepel - 0.9.4**
+   * **tidyr - 1.3.0**
 
 ### Outils dockerisés :
 

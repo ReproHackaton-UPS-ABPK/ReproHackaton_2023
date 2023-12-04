@@ -58,7 +58,6 @@ rule mapping:
     shell:
         "bowtie2 -x index/aureusIndex -U {input} -S {output}"
 
-
 rule samTobam:
     input: 
         "mapped/{sracode}.sam"
@@ -89,7 +88,6 @@ rule analyse_stat:
         expand("count/{accession}.txt", accession=config["SRR"]),
         "ressources/genomes/translation.txt",
         "ressources/result_matrix/matrix_article.csv"
-
     output:
         "results/plot2.pdf",
         "results/plot1.pdf",

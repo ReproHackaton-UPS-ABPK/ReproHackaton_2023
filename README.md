@@ -17,10 +17,14 @@ snakemake --cores all --use-singularity
 ```
 Au cours de l'exécution du processus, plusieurs dossiers seront créés pour stocker les fichiers résultant de chaque étape. Les résultats finaux, après l'analyse des données, se trouvent dans le dossier "results".
 La liste des résultats attendus est la suivante:
-* La matrice de comptage de gènes.
-* MA-plot de l'ensemble des données RNA-seq.
-* MA-plot des gènes liés à la traduction.
-### prérequis:
+1. **La matrice de comptage de gènes.**
+2. **MA-plot de l'ensemble des données RNA-seq.**
+3. **MA-plot des gènes liés à la traduction.**
+4. Volcanoplot des gènes exprimés de manière différentielle.
+5. Boxplots par enchantillon de la matrice de comptage de l'article.
+6. Boxplots par enchantillon de la matrice de comptage issue de l'execution du workflow.
+   
+### Prérequis:
 * Snakemake.
 * Singularity (une version de préférence égale ou supérieure à 3.8.7).
 

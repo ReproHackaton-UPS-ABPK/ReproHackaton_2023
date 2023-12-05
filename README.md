@@ -12,7 +12,7 @@ Nous nous intéressons à cet article :  [Intracellular Staphylococcus aureus pe
 Pour utiliser ce dépôt, il suffit de le cloner, et à partir d'un terminal, de changer le répertoire courant et lancer la commande snakemake. Vous pouvez choisir la quantité de cores à utiliser et choisir d'autres options de votre préference. N'oubliez pas d'inclure l'utilisation de Singularity. Voici nos commandes recommandées pour exécuter le workflow.
 ```
 git clone https://github.com/ReproHackaton-UPS-ABPK/ReproHackaton_2023.git
-cd ReproHackaton_2023 <ou le nom que vous avez asiggne au répertoire>
+cd ReproHackaton_2023/
 snakemake --cores all --use-singularity
 ```
 Au cours de l'exécution du processus, plusieurs dossiers seront créés pour stocker les fichiers résultant de chaque étape. Les résultats finaux, après l'analyse des données, se trouvent dans le dossier "results".

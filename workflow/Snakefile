@@ -2,7 +2,6 @@ configfile: "workflow/config.yaml"
 rule all:
     input:
         expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"]),
-        expand("count/{accession}.txt", accession=config["SRR"]),
         "results/plot2.pdf",
         "results/plot1.pdf",
         "results/matrix_comptage.csv",
@@ -32,7 +31,7 @@ rule bowtie_index:
     input: 
         "ressources/genomes/reference.fasta"
     output: 
-        "index/aureusIndex.{suffix}.bt2"
+        expand("index/aureusIndex.{suffix}.bt2", suffix=config["AUREOS"])
     container: 
         "docker://nanozoo/bowtie2"
     shell:

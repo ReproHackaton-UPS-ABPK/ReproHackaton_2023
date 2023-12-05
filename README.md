@@ -9,7 +9,7 @@ Nous travaillons sur un cas d'utilisation d'analyse de données RNA-Seq, en repr
 Nous nous intéressons à cet article :  [Intracellular Staphylococcus aureus persisters upon antibiotic exposure](https://doi.org/10.1038/s41467-020-15966-7).
 
 ## Comment utiliser ce dépot ?
-Pour utiliser ce dépôt, il suffit de le cloner, et à partir d'un terminal, de changer le répertoire courant et lancer la commande snakemake. Vous pouvez choisir la quantitÉ de cores à utiliser et choisir d'autres options de votre préference. N'oubliez pas d'inclure l'utilisation de Singularity. Voici nos commandes recommandées pour exécuter le workflow.
+Pour utiliser ce dépôt, il suffit de le cloner, et à partir d'un terminal, de changer le répertoire courant et lancer la commande snakemake. Vous pouvez choisir la quantité de cores à utiliser et choisir d'autres options de votre préference. N'oubliez pas d'inclure l'utilisation de Singularity. Voici nos commandes recommandées pour exécuter le workflow.
 ```
 git clone https://github.com/ReproHackaton-UPS-ABPK/ReproHackaton_2023.git
 cd ReproHackaton_2023 <ou le nom que vous avez asiggne au répertoire>
